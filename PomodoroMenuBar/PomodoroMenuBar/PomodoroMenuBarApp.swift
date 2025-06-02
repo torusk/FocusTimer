@@ -28,6 +28,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     private var statusItem: NSStatusItem?
     // ポップオーバー（ドロップダウンメニューの代わり）
     private var popover: NSPopover?
+    // アニメーション用のタイマー
+    private var animationTimer: Timer?
+    // アニメーション状態
+    private var isAnimating = false
+    private var animationScale: CGFloat = 1.0
     
     func applicationDidFinishLaunching(_ notification: Notification) {
         // Dockアイコンを非表示にする
@@ -46,6 +51,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             button.image = NSImage(systemSymbolName: "timer", accessibilityDescription: "Pomodoro Timer")
             button.action = #selector(togglePopover)
             button.target = self
+            
+            // RunCat風アニメーションを開始
+            startAnimation()
         }
         
         // ポップオーバーを作成
@@ -71,5 +79,49 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 popover.show(relativeTo: button.bounds, of: button, preferredEdge: NSRectEdge.minY)
             }
         }
+    }
+    
+    // RunCat風アニメーションを開始
+    private func startAnimation() {
+        isAnimating = true
+        animationTimer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: true) { [weak self] _ in
+            self?.animateIcon()
+        }
+    }
+    
+    // アニメーションを停止
+    private func stopAnimation() {
+        isAnimating = false
+        animationTimer?.invalidate()
+        animationTimer = nil
+        
+        // アイコンを元のサイズに戻す
+        if let button = statusItem?.button {
+            NSAnimationContext.runAnimationGroup { context in
+                context.duration = 0.2
+                button.layer?.transform = CATransform3DIdentity
+            }
+        }
+    }
+    
+    // アイコンのアニメーション実行
+    private func animateIcon() {
+        guard let button = statusItem?.button, isAnimating else { return }
+        
+        // 上下に伸び縮みするアニメーション（0.8x ↔ 1.2x）
+        let targetScale: CGFloat = animationScale == 1.0 ? 1.2 : 0.8
+        animationScale = targetScale
+        
+        NSAnimationContext.runAnimationGroup { context in
+            context.duration = 0.25
+            context.timingFunction = CAMediaTimingFunction(name: .easeInEaseOut)
+            
+            let transform = CATransform3DMakeScale(1.0, targetScale, 1.0)
+            button.layer?.transform = transform
+        }
+    }
+    
+    deinit {
+        stopAnimation()
     }
 }
