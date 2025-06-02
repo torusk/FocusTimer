@@ -1,0 +1,23 @@
+# FocusTimer プロジェクト用エイリアス
+# このファイルの内容を ~/.zshrc に追加してください
+
+# プロジェクトルートに移動するエイリアス
+alias focustimer='cd /Users/kazuki/Desktop/FocusTimer'
+
+# プロジェクトコマンドのエイリアス
+alias ft-status='/Users/kazuki/Desktop/FocusTimer/project-commands.sh status'
+alias ft-add='/Users/kazuki/Desktop/FocusTimer/project-commands.sh add'
+alias ft-commit='/Users/kazuki/Desktop/FocusTimer/project-commands.sh commit'
+alias ft-push='/Users/kazuki/Desktop/FocusTimer/project-commands.sh push'
+alias ft-build='/Users/kazuki/Desktop/FocusTimer/project-commands.sh build'
+alias ft-run='/Users/kazuki/Desktop/FocusTimer/project-commands.sh run'
+alias ft-help='/Users/kazuki/Desktop/FocusTimer/project-commands.sh help'
+
+# 使用例:
+# ft-status      # Git status を確認
+# ft-add         # すべての変更をステージング
+# ft-commit "メッセージ"  # コミット
+# ft-push        # プッシュ
+# ft-build       # ビルド
+# ft-run         # Xcodeでプロジェクトを開く
+# focustimer     # プロジェクトルートに移動

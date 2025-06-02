@@ -1,0 +1,4 @@
+# This file marks the project root directory
+# All git and build commands should be executed from this directory
+PROJECT_ROOT=/Users/kazuki/Desktop/FocusTimer
+PROJECT_NAME=FocusTimer
